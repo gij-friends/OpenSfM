@@ -1,3 +1,47 @@
+## 追記
+
+### docker動かし方
+
+ビルドはbuildXを使えるようにしておいて
+```
+docker buildx build -t opensfmimage .
+```
+
+コンテナ作成
+
+```
+docker run -it -d --mount type=bind,source="$(pwd)"/data,target=/source/OpenSfm/data  -p 8080:8080 --name opensfm opensfmimage
+```
+
+bash起動
+```
+docker exec -it opensfm /bin/bash
+```
+
+containerId取得(停止中は -a つけないと取得できない)
+```
+docker ps --filter name=opensfm --format "{{.ID}}" -a
+```
+
+データコピー
+(host -> container)
+
+```
+docker cp data/ "$(docker ps --filter name=opensfm --format "{{.ID}}" -a)":/source/OpenSfM/
+```
+
+(container -> host)
+```
+docker cp "$(docker ps --filter name=opensfm --format "{{.ID}}" -a)":/source/OpenSfM/data .
+```
+
+コンテナ削除
+```
+docker rm "$(docker ps --filter name=opensfm --format "{{.ID}}" -a)"
+```
+----
+
+
 OpenSfM ![Docker workflow](https://github.com/mapillary/opensfm/workflows/Docker%20CI/badge.svg)
 =======
 
