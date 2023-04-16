@@ -10,7 +10,7 @@ docker buildx build -t opensfmimage .
 コンテナ作成
 
 ```
-docker run -it -d --mount type=bind,source="$(pwd)"/data,target=/source/OpenSfm/data  -p 8080:8080 --name opensfm opensfmimage
+docker run -it -d -p 8080:8080 --name opensfm opensfmimage
 ```
 
 bash起動
